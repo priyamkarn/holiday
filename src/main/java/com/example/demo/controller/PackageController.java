@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,6 +69,22 @@ public class PackageController {
             transportMode, minDuration, maxDuration));
     }
     
+    // Filter by budget
+    @GetMapping("/filter/budget")
+    public ResponseEntity<List<Package>> filterByBudget(
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice) {
+        return ResponseEntity.ok(packageService.filterByBudget(minPrice, maxPrice));
+    }
+    
+    // Filter by travel dates
+    @GetMapping("/filter/dates")
+    public ResponseEntity<List<Package>> filterByTravelDates(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        return ResponseEntity.ok(packageService.filterByTravelDates(startDate, endDate));
+    }
+    
     // View cancellation terms
     @GetMapping("/{id}/cancellation-terms")
     public ResponseEntity<String> getCancellationTerms(@PathVariable Long id) {
@@ -75,5 +93,11 @@ public class PackageController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(terms);
+    }
+    
+    // Check refund rules (hardcoded)
+    @GetMapping("/refund-rules")
+    public ResponseEntity<String> getRefundRules() {
+        return ResponseEntity.ok(packageService.getRefundRules());
     }
 }

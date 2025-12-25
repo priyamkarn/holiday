@@ -1,15 +1,13 @@
 package com.example.demo.service;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.demo.model.Booking;
 import com.example.demo.model.BookingStatus;
 import com.example.demo.model.Package;
 import com.example.demo.repository.BookingRepository;
 import com.example.demo.repository.PackageRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookingService {
@@ -35,6 +33,7 @@ public class BookingService {
         }
         return bookingRepository.save(booking);
     }
+    
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
     }
